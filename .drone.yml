@@ -1,0 +1,41 @@
+---
+{
+   "kind": "pipeline",
+   "name": "golang1.13",
+   "steps": [
+      {
+         "commands": [
+            "golangci-lint run"
+         ],
+         "image": "golangci/golangci-lint:latest",
+         "name": "lint"
+      },
+      {
+         "commands": [
+            "go test -coverprofile=coverage.txt -covermode=atomic ./..."
+         ],
+         "image": "golang:1.13",
+         "name": "test"
+      },
+      {
+         "commands": [
+            "curl -s https://codecov.io/bash | bash"
+         ],
+         "environment": {
+            "CODECOV_TOKEN": {
+               "from_secret": "codecov-upload-token"
+            }
+         },
+         "failure": "ignore",
+         "image": "golang:1.13",
+         "name": "coverage"
+      }
+   ]
+}
+---
+{
+   "data": "c4Ktn+MGi5VipkWZ0YKTKqKDuPDs3zGAR3TygYqfKlhOMBSpxt13Sx32El0z+BvItFQufwD7gfEQltYR+YUDCw==",
+   "kind": "secret",
+   "name": "codecov-upload-token"
+}
+...
