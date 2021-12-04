@@ -5,7 +5,7 @@
 
 ## Install
 
-```
+```sh
 go get github.com/dochang/svtu/cmd/svtu
 ```
 
@@ -13,7 +13,7 @@ go get github.com/dochang/svtu/cmd/svtu
 
 ### Grep
 
-```
+```sh
 svtu grep RANGES [FILE...]
 svtu grep -e RANGES ... [FILE...]
 ```
