@@ -152,7 +152,7 @@ func (c Greper) Run(svRanges []semver.Range, paths ...string) error {
 
 	go func() {
 		defer close(semversC)
-		_ = g.Wait()
+		g.Wait() //nolint:errcheck // We will check the return value later.
 	}()
 
 	for semvers := range semversC {
