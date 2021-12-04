@@ -91,34 +91,60 @@ func grep(reader io.Reader, svRanges []semver.Range) ([]semver.Version, error) {
 	return semvers, nil
 }
 
+func (c Greper) sendReader(ctx context.Context, readerC chan io.ReadCloser, paths []string) error {
+	defer close(readerC)
+	if len(paths) == 0 {
+		paths = []string{"-"}
+	}
+	for i := 0; i < len(paths); i++ {
+		path := paths[i]
+		var reader io.ReadCloser
+		var err error
+		if path == "-" {
+			reader = ioutil.NopCloser(c.In)
+		} else {
+			reader, err = c.Fs.Open(path)
+		}
+		if err != nil {
+			return err
+		}
+		select {
+		case readerC <- reader:
+		case <-ctx.Done():
+			return ctx.Err()
+		}
+	}
+	return nil
+}
+
+func recvReader(ctx context.Context, semversC chan []semver.Version, readerC chan io.ReadCloser, svRanges []semver.Range) error {
+	for reader := range readerC {
+		semvers, err := grep(reader, svRanges)
+
+		if err != nil {
+			reader.Close()
+			return err
+		}
+
+		if err := reader.Close(); err != nil {
+			return err
+		}
+
+		select {
+		case semversC <- semvers:
+		case <-ctx.Done():
+			return ctx.Err()
+		}
+	}
+	return nil
+}
+
 func (c Greper) Run(svRanges []semver.Range, paths ...string) error {
 	g, ctx := errgroup.WithContext(context.Background())
 	readerC := make(chan io.ReadCloser)
 
 	g.Go(func() error {
-		defer close(readerC)
-		if len(paths) == 0 {
-			paths = []string{"-"}
-		}
-		for i := 0; i < len(paths); i++ {
-			path := paths[i]
-			var reader io.ReadCloser
-			var err error
-			if path == "-" {
-				reader = ioutil.NopCloser(c.In)
-			} else {
-				reader, err = c.Fs.Open(path)
-			}
-			if err != nil {
-				return err
-			}
-			select {
-			case readerC <- reader:
-			case <-ctx.Done():
-				return ctx.Err()
-			}
-		}
-		return nil
+		return c.sendReader(ctx, readerC, paths)
 	})
 
 	semversC := make(chan []semver.Version)
@@ -128,25 +154,7 @@ func (c Greper) Run(svRanges []semver.Range, paths ...string) error {
 	}
 	for i := 0; i < jobNum; i++ {
 		g.Go(func() error {
-			for reader := range readerC {
-				semvers, err := grep(reader, svRanges)
-
-				if err != nil {
-					reader.Close()
-					return err
-				}
-
-				if err := reader.Close(); err != nil {
-					return err
-				}
-
-				select {
-				case semversC <- semvers:
-				case <-ctx.Done():
-					return ctx.Err()
-				}
-			}
-			return nil
+			return recvReader(ctx, semversC, readerC, svRanges)
 		})
 	}
 
