@@ -1,0 +1,67 @@
+name: CI
+on:
+  - push
+jobs:
+  Mega-Linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Mega-Linter
+      - name: Mega-Linter
+        id: ml
+        # You can override Mega-Linter flavor used to have faster performances
+        # More info at https://megalinter.github.io/flavors/
+        uses: megalinter/megalinter/flavors/go@v5
+        env:
+          # All available variables are described in documentation
+          # https://megalinter.github.io/configuration/
+          VALIDATE_ALL_CODEBASE: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Upload Mega-Linter artifacts
+      - name: Archive production artifacts
+        if: ${{ success() }} || ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Mega-Linter reports
+          path: |
+            report
+            mega-linter.log
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version:
+          - 1.13
+          - 1.14
+          - 1.15
+          - 1.16
+          - 1.17
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python ${{ matrix.go-version }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: "${{ matrix.go-version }}"
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Test
+        run: |
+          go test -coverprofile=coverage.txt -covermode=atomic ./...
+
+      - name: Coverage
+        uses: codecov/codecov-action@v2
+        with:
+          verbose: true
