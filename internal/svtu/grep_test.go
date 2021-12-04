@@ -1,4 +1,4 @@
-package svtu
+package svtu_test
 
 import (
 	"os"
@@ -11,6 +11,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/dochang/svtu/internal/svtu"
 )
 
 func TestGrepCmd(t *testing.T) {
@@ -47,14 +49,14 @@ func TestGrepCmd(t *testing.T) {
 			stdin := strings.NewReader(strings.Join(test.stdin, "\n"))
 			dataPath := filepath.Join(dataPathPrefix, t.Name())
 			fs := afero.NewBasePathFs(afero.NewOsFs(), dataPath)
-			greper := Greper{
+			greper := svtu.Greper{
 				Viper: viper.New(),
 				In:    stdin,
 				Out:   &writer,
 				Err:   os.Stderr,
 				Fs:    fs,
 			}
-			grepCmd := NewGrepCmd(greper)
+			grepCmd := svtu.NewGrepCmd(greper)
 			err := greper.Viper.BindPFlags(grepCmd.Flags())
 			assert.NoError(err)
 			grepCmd.SetArgs(append([]string{"--goroutines", "1"}, test.args...))
