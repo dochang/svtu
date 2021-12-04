@@ -1,4 +1,4 @@
-package main
+package svtu
 
 import (
 	"os"
@@ -54,7 +54,7 @@ func TestGrepCmd(t *testing.T) {
 				Err:   os.Stderr,
 				Fs:    fs,
 			}
-			grepCmd := newGrepCmd(greper)
+			grepCmd := NewGrepCmd(greper)
 			err := greper.Viper.BindPFlags(grepCmd.Flags())
 			assert.NoError(err)
 			grepCmd.SetArgs(append([]string{"--goroutines", "1"}, test.args...))

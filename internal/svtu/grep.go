@@ -1,4 +1,4 @@
-package main
+package svtu
 
 import (
 	"context"
@@ -25,7 +25,7 @@ type Greper struct {
 	Fs    afero.Fs
 }
 
-func newGrepCmd(greper Greper) *cobra.Command {
+func NewGrepCmd(greper Greper) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           "grep PATTERNS [FILE...]",
 		SilenceErrors: true,

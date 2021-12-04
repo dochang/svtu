@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/dochang/svtu/internal/svtu"
 )
 
 var (
@@ -34,14 +36,14 @@ func init() {
 	if err := v.BindPFlags(rootCmd.Flags()); err != nil {
 		log.Fatalln(err)
 	}
-	greper := Greper{
+	greper := svtu.Greper{
 		Viper: v,
 		In:    os.Stdin,
 		Out:   os.Stdout,
 		Err:   os.Stderr,
 		Fs:    afero.NewOsFs(),
 	}
-	grepCmd := newGrepCmd(greper)
+	grepCmd := svtu.NewGrepCmd(greper)
 	if err := v.BindPFlags(grepCmd.Flags()); err != nil {
 		log.Fatalln(err)
 	}
