@@ -37,7 +37,7 @@ func newGrepCmd(greper Greper) *cobra.Command {
 					ranges = []string{args[0]}
 					args = args[1:]
 				} else {
-					return errors.New("No RANGE specified.")
+					return errors.New("no RANGE specified")
 				}
 			}
 			paths := args
