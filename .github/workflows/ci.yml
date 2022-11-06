@@ -22,7 +22,7 @@ jobs:
       # Upload Mega-Linter artifacts
       - name: Archive production artifacts
         if: ${{ success() }} || ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Mega-Linter reports
           path: |
@@ -41,12 +41,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Python ${{ matrix.go-version }}
-        uses: actions/setup-go@v2
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v3
         with:
           go-version: "${{ matrix.go-version }}"
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.cache/go-build
@@ -60,6 +60,6 @@ jobs:
           go test -coverprofile=coverage.txt -covermode=atomic ./...
 
       - name: Coverage
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           verbose: true
