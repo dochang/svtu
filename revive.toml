@@ -1,0 +1,7 @@
+# FIXME Re-enable these rules
+
+[rule.package-comments]
+Disabled = true
+
+[rule.exported]
+Disabled = true
