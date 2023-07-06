@@ -1,7 +1,6 @@
 # SemVerTextUtils
 
 [![CI](https://github.com/dochang/svtu/actions/workflows/ci.yml/badge.svg)](https://github.com/dochang/svtu/actions/workflows/ci.yml)
-[![Build Status](https://cloud.drone.io/api/badges/dochang/svtu/status.svg)](https://cloud.drone.io/dochang/svtu)
 [![codecov](https://codecov.io/gh/dochang/svtu/branch/master/graph/badge.svg)](https://codecov.io/gh/dochang/svtu)
 
 ## Install
