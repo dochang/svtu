@@ -3,6 +3,8 @@
 [![CI](https://github.com/dochang/svtu/actions/workflows/ci.yml/badge.svg)](https://github.com/dochang/svtu/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/dochang/svtu/branch/master/graph/badge.svg)](https://codecov.io/gh/dochang/svtu)
 
+1
+
 ## Install
 
 ```sh
