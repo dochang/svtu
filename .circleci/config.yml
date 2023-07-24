@@ -1,0 +1,47 @@
+version: 2.1
+
+orbs:
+  go: circleci/go@1.7.3
+
+jobs:
+  Mega-Linter:
+    environment:
+      DEFAULT_WORKSPACE: /root/project
+    docker:
+      - image: oxsecurity/megalinter-go:v7
+        # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
+    steps:
+      - checkout
+      - run:
+          command: |
+            sh /entrypoint.sh
+      - store_artifacts:
+          path: megalinter-reports
+  test:
+    parameters:
+      go-version:
+        type: string
+    executor:
+      name: go/default
+      tag: << parameters.go-version >>
+    steps:
+      - checkout
+      - go/load-cache
+      - go/mod-download
+      - go/save-cache
+      - go/test:
+          coverprofile: coverage.txt
+          covermode: atomic
+          coverpkg: ./...
+
+workflows:
+  CI:
+    jobs:
+      - Mega-Linter
+      - test:
+          matrix:
+            parameters:
+              go-version:
+                - "1.17"
+                - "1.18"
+                - "1.19"
