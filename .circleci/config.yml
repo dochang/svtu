@@ -26,9 +26,11 @@ jobs:
       tag: << parameters.go-version >>
     steps:
       - checkout
-      - go/load-cache
+      - go/load-cache:
+          key: &go-mod-cache-key v1-go-mod-<< parameters.go-version >>
       - go/mod-download
-      - go/save-cache
+      - go/save-cache:
+          key: *go-mod-cache-key
       - go/test:
           coverprofile: coverage.txt
           covermode: atomic
