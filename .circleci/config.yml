@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   go: circleci/go@1.7.3
+  codecov: codecov/codecov@3.2.5
 
 jobs:
   Mega-Linter:
@@ -35,6 +36,7 @@ jobs:
           coverprofile: coverage.txt
           covermode: atomic
           coverpkg: ./...
+      - codecov/upload
 
 workflows:
   CI:
