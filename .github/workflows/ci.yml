@@ -10,7 +10,7 @@ jobs:
   Mega-Linter:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Mega-Linter
       - name: Mega-Linter
@@ -46,7 +46,7 @@ jobs:
           - "1.20"
           - "1.21"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
