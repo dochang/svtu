@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"runtime"
 	"strings"
 
@@ -101,7 +100,7 @@ func (c Greper) sendReader(ctx context.Context, readerC chan io.ReadCloser, path
 		var reader io.ReadCloser
 		var err error
 		if path == "-" {
-			reader = ioutil.NopCloser(c.In)
+			reader = io.NopCloser(c.In)
 		} else {
 			reader, err = c.Fs.Open(path)
 		}
