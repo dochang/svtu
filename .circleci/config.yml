@@ -1,3 +1,5 @@
+# kics-scan disable=555ab8f9-2001-455e-a077-f2d0f41e2fb9
+# Prefer mutable but stable tags
 version: 2.1
 
 orbs:
@@ -9,7 +11,7 @@ jobs:
     environment:
       DEFAULT_WORKSPACE: /root/project
     docker:
-      - image: oxsecurity/megalinter-go:v8
+      - image: oxsecurity/megalinter:v8
         # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
     steps:
       - checkout
