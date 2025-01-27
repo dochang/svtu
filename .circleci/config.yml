@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   go: circleci/go@2.2.4
-  codecov: codecov/codecov@5.0.3
+  codecov: codecov/codecov@5.2.0
 
 jobs:
   Mega-Linter:
