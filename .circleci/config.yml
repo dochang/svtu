@@ -1,23 +1,11 @@
 version: 2.1
 
 orbs:
+  megalinter: relativesure/megalinter@2.0.0
   go: circleci/go@2.2.4
   codecov: codecov/codecov@5.2.0
 
 jobs:
-  Mega-Linter:
-    environment:
-      DEFAULT_WORKSPACE: /root/project
-    docker:
-      - image: oxsecurity/megalinter-go:v8
-        # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
-    steps:
-      - checkout
-      - run:
-          command: |
-            sh /entrypoint.sh
-      - store_artifacts:
-          path: megalinter-reports
   test:
     parameters:
       go-version:
@@ -39,7 +27,10 @@ jobs:
 workflows:
   CI:
     jobs:
-      - Mega-Linter
+      - megalinter/run:
+          flavor: go
+          tag: v8
+          context: grafana_cloud_free_tier
       - test:
           matrix:
             parameters:
