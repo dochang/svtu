@@ -43,7 +43,8 @@ jobs:
 workflows:
   CI:
     jobs:
-      - MegaLinter
+      - MegaLinter:
+          context: megalinter
       - test:
           matrix:
             parameters:
