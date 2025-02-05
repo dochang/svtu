@@ -39,7 +39,8 @@ jobs:
 workflows:
   CI:
     jobs:
-      - Mega-Linter
+      - Mega-Linter:
+          context: grafana_cloud_free_tier
       - test:
           matrix:
             parameters:
