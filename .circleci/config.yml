@@ -52,3 +52,4 @@ workflows:
               go-version:
                 - "1.22"
                 - "1.23"
+          context: test
