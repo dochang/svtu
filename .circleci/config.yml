@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  go: circleci/go@2.2.5
+  go: circleci/go@3.0.2
   codecov: codecov/codecov@5.3.0
 
 jobs:
