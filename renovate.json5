@@ -1,22 +1,19 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "matchPackagePatterns": [
-        "*"
+      matchUpdateTypes: [
+        'minor',
+        'patch',
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
+      groupName: 'all non-major dependencies',
+      groupSlug: 'all-minor-patch',
+      matchPackageNames: [
+        '*',
       ],
-      "groupName": "all non-major dependencies",
-      "groupSlug": "all-minor-patch"
-    }
-  ]
-  // Combine all minor and patch updates to one branch/PR.
-  // https://stackoverflow.com/a/67071518
-  // https://docs.renovatebot.com/presets-group/#groupallnonmajor
+    },
+  ],
 }
