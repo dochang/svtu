@@ -2,7 +2,7 @@ module github.com/dochang/svtu
 
 go 1.23.0
 
-toolchain go1.24.2
+toolchain go1.24.3
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
@@ -12,7 +12,7 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/sync v0.13.0
+	golang.org/x/sync v0.14.0
 )
 
 require (
