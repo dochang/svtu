@@ -2,17 +2,17 @@ module github.com/dochang/svtu
 
 go 1.23.0
 
-toolchain go1.24.3
+toolchain go1.24.5
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/msoap/byline v1.1.1
-	github.com/sebdah/goldie/v2 v2.5.5
+	github.com/sebdah/goldie/v2 v2.7.1
 	github.com/spf13/afero v1.14.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/sync v0.14.0
+	golang.org/x/sync v0.16.0
 )
 
 require (
