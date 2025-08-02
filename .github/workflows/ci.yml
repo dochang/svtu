@@ -74,5 +74,6 @@ jobs:
         with:
           files: coverage.txt
           verbose: true
+          fail_ci_if_error: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

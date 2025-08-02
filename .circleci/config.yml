@@ -40,6 +40,8 @@ jobs:
                 covermode: atomic
       - codecov/upload:
           files: coverage.txt
+          verbose: true
+          fail_on_error: true
 
 workflows:
   CI:
