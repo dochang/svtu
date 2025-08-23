@@ -1,0 +1,7 @@
+test_task:
+  container:
+    image: go:latest
+
+  test_script:
+    - go mod download
+    - go test -coverprofile=coverage.txt -covermode=atomic ./...
