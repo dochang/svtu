@@ -7,7 +7,7 @@ orbs:
 jobs:
   MegaLinter:
     docker:
-      - image: oxsecurity/megalinter-go:v8
+      - image: oxsecurity/megalinter-go:v9
         # checkov:skip=CKV_CIRCLECIPIPELINES_2:prefer mutable but stable tags
     steps:
       - checkout
